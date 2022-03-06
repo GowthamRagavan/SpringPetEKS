@@ -7,10 +7,11 @@ pipeline{
 
     stages{
         stage("Compile-Package"){
-            sh 'chmod 777 ./mvnw'
-            sh './mvnw clean package'
-	         sh 'mv target/spring-petclinic*.jar target/ramapp.jar'
-        }
+            sh '''
+            chmod 777 ./mvnw
+            ./mvnw clean package
+	          mv target/spring-petclinic*.jar target/ramapp.jar
+             '''
 
         stage("Build Docker Imager"){
             sh 'docker build -t gowthamragavan/ramweb:0.0.2 .'
