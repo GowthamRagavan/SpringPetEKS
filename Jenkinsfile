@@ -17,15 +17,7 @@ pipeline{
                    }
               }
           }
-
-        stage("Build Docker Imager"){
-           steps{
-              script{
-                  sh 'docker build -t gowthamragavan/ramweb:0.0.2 .'
-              }
-           }            
-        }
-        stage('indentifying misconfigs using datree in helm charts'){
+        stage('Sonar and QG'){
             agent{
                 docker {
                     image 'openjdk:8'
@@ -48,6 +40,13 @@ pipeline{
                 }
             }
 
+        }
+        stage("Build Docker Imager"){
+           steps{
+              script{
+                  sh 'docker build -t gowthamragavan/ramweb:0.0.2 .'
+              }
+           }            
         }
 
         }
