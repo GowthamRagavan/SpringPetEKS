@@ -17,7 +17,7 @@ pipeline{
                 script{
                     withSonarQubeEnv(credentialsId: 'sonar-token') {
                         def mvnHome =  tool name: 'Maven3', type: 'maven' 
-                        sh '${mvnHome}/bin/mvn sonar:sonar'
+                        sh '/usr/share/maven/bin/mvn sonar:sonar'
                     }
 
                     timeout(time: 1, unit: 'HOURS') {
@@ -34,7 +34,7 @@ pipeline{
         stage("Compile-Package"){
            steps{
               script{
-                    def mvnHome =  tool name: 'Maven3', type: 'maven' 
+                       def mvnHome =  tool name: 'Maven3', type: 'maven' 
                     
                        sh '${mvnHome}/bin/mvn clean package'
 	                    sh  'mv target/spring-petclinic*.jar target/ramapp.jar'
