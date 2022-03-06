@@ -34,6 +34,7 @@ pipeline{
             steps{
                 script{
                     withSonarQubeEnv(credentialsId: 'sonar-token') {
+                        sh 'chmod 777 ./mvnw'
                         sh './mvnw sonarqube'
                     }
 
