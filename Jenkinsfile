@@ -12,6 +12,7 @@ pipeline{
             ./mvnw clean package
 	          mv target/spring-petclinic*.jar target/ramapp.jar
              '''
+        }
 
         stage("Build Docker Imager"){
             sh 'docker build -t gowthamragavan/ramweb:0.0.2 .'
