@@ -16,7 +16,7 @@ pipeline{
                 script{
                     withSonarQubeEnv(credentialsId: 'sonar-token') {
                         sh 'chmod 777 ./mvnw'
-                        sh './mvnw sonarqube'
+                        sh './mvnw sonar:sonar'
                     }
 
                     timeout(time: 1, unit: 'HOURS') {
