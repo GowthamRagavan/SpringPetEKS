@@ -1,4 +1,7 @@
 pipeline{
+   tools {
+        maven 'Maven3'
+    }
     agent any
     environment{
         VERSION = "${env.BUILD_ID}"
@@ -15,7 +18,7 @@ pipeline{
             steps{
                 script{
                     withSonarQubeEnv(credentialsId: 'sonar-token') {
-                        sh './mvn sonar:sonar'
+                        sh 'mvn sonar:sonar'
                     }
 
                     timeout(time: 1, unit: 'HOURS') {
@@ -33,8 +36,8 @@ pipeline{
            steps{
               script{
                     sh '''
-                       chmod 777 ./mvnw
-                       ./mvn clean package
+                       chmod 777 ./mvn
+                       mvn clean package
 	                    mv target/spring-petclinic*.jar target/ramapp.jar
                        '''
                    }
