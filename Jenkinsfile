@@ -17,7 +17,7 @@ pipeline{
                 script{
                     withSonarQubeEnv(credentialsId: 'sonar-token') {
                         def mvnHome =  tool name: 'Maven3', type: 'maven' 
-                        sh 'mvn clean package sonar:sonar'
+                        sh '${mvnHome}/bin/mvn clean package sonar:sonar'
                     }
 
                     timeout(time: 1, unit: 'HOURS') {
