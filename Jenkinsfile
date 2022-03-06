@@ -15,8 +15,8 @@ pipeline{
             steps{
                 script{
                     withSonarQubeEnv(credentialsId: 'sonar-token') {
-                        sh 'chmod 777 ./mvnw'
-                        sh './mvnw sonar:sonar'
+                            sh 'chmod +x gradlew'
+                            sh './gradlew sonarqube''
                     }
 
                     timeout(time: 1, unit: 'HOURS') {
