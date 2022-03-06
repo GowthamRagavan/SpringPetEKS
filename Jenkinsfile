@@ -9,7 +9,7 @@ pipeline{
          stage('Sonar and QG'){
             agent{
                 docker {
-                    image 'openjdk:8'
+                    image 'openjdk:11'
                   }
             }
             steps{
