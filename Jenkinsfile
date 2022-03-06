@@ -6,18 +6,7 @@ pipeline{
     }
 
     stages{
-        stage("Compile-Package"){
-           steps{
-              script{
-                    sh '''
-                       chmod 777 ./mvnw
-                       ./mvnw clean package
-	                    mv target/spring-petclinic*.jar target/ramapp.jar
-                       '''
-                   }
-              }
-          }
-        stage('Sonar and QG'){
+         stage('Sonar and QG'){
             agent{
                 docker {
                     image 'openjdk:8'
@@ -41,6 +30,17 @@ pipeline{
             }
 
         }
+        stage("Compile-Package"){
+           steps{
+              script{
+                    sh '''
+                       chmod 777 ./mvnw
+                       ./mvnw clean package
+	                    mv target/spring-petclinic*.jar target/ramapp.jar
+                       '''
+                   }
+              }
+          }
         stage("Build Docker Imager"){
            steps{
               script{
