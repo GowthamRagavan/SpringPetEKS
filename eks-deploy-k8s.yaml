@@ -1,42 +1,68 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: {{ include "myapp.fullname" . }}
   labels:
-    app: springboot-app
-  name: springboot-app
+    {{- include "myapp.labels" . | nindent 4 }}
 spec:
-  replicas: 4
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: springboot-app
+      {{- include "myapp.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: springboot-app
+        {{- include "myapp.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-      - name: my-springboot-app
-        image: 964874103124.dkr.ecr.us-east-2.amazonaws.com/docker_hosted_private:latest
-        imagePullPolicy: Always
+      - name: {{ .Chart.Name }}
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: 8085
           name: http
           protocol: TCP
+
+        livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+            timeoutSeconds: 10
+        readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+            timeoutSeconds: 10
+        resources:
+            requests:
+              memory: 0.25Gi
+              cpu: 0.5
+            limits:
+              memory: 0.25Gi 
+              cpu: 0.5
+
 # service type loadbalancer       
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  name: {{ include "myapp.fullname" . }}
   labels:
-    app: springboot-app
-    k8s-app: springboot-app
-  name: springboot-app
+    {{- include "myapp.labels" . | nindent 4 }}
 spec:
   ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 8085
-  type: LoadBalancer
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  type: {{ .Values.service.type }}
   selector:
-    app: springboot-app
+    {{- include "myapp.selectorLabels" . | nindent 4 }}
