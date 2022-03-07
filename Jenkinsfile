@@ -31,7 +31,7 @@ pipeline{
                 script{
                     withSonarQubeEnv(credentialsId: 'sonar-token') {
                         sh 'chmod 777 ./mvnw'
-                        sh './mvnw org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
+                        sh './mvnw org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.0.1398:sonar'
                     }
 
                     timeout(time: 1, unit: 'HOURS') {
