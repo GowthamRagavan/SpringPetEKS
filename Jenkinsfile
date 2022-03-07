@@ -59,6 +59,18 @@ pipeline{
             }
         }
 
+         stage("K8S deploy"){
+           steps{
+               script{
+                        withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'K8S', namespace: '', serverUrl: '') {
+                            dir('kubernetes/') {
+                                sh 'helm upgrade --install --set image.repository="964874103124.dkr.ecr.us-east-2.amazonaws.com/springapp" --set image.tag="${VERSION}" myjavaapp myapp/ ' 
+                                }                         
+                        }
+
+               }
+          }
+
         }
         
         
