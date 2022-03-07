@@ -1,7 +1,5 @@
 pipeline{
-   tools {
-        maven 'Maven3'
-    }
+
 
     agent any
     environment{
@@ -10,16 +8,26 @@ pipeline{
     }
 
     stages{
+         stage("Compile-Package"){
+           steps{
+              script{
+                    
+                       sh 'mvn package'
+	                    sh  'mv target/spring-petclinic*.jar target/ramapp.jar'
+                       
+                   }
+              }
+          }
          stage('Sonar and QG'){
             agent{
                 docker {
-                    image 'openjdk:8'
+                    image 'openjdk:11'
                   }
             }
             steps{
                 script{
                     withSonarQubeEnv(credentialsId: 'sonar-token') {
-                        sh 'mvn clean package sonar:sonar'
+                        sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.0.1398:sonar'
                     }
 
                     timeout(time: 1, unit: 'HOURS') {
@@ -33,16 +41,7 @@ pipeline{
             }
 
         }
-        stage("Compile-Package"){
-           steps{
-              script{
-                    
-                       sh 'mvn clean package'
-	                    sh  'mv target/spring-petclinic*.jar target/ramapp.jar'
-                       
-                   }
-              }
-          }
+
         stage("Build Docker Imager"){
            steps{
               script{
