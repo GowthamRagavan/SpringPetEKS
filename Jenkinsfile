@@ -7,7 +7,10 @@ pipeline{
     }
 
 
-        stage("Compile-Package"){
+
+
+    stages{
+         stage("Compile-Package"){
            steps{
               script{
                     sh '''
@@ -18,8 +21,6 @@ pipeline{
                    }
               }
           }
-
-    stages{
          stage('Sonar and QG'){
             agent{
                 docker {
