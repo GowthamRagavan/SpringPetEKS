@@ -4,7 +4,7 @@ pipeline{
     environment{
         VERSION = "${env.BUILD_ID}"
         url = "${env.BUILD_URL}"
-        register = "964874103124.dkr.ecr.us-east-2.amazonaws.com/docker_hosted_private"
+        register = "964874103124.dkr.ecr.us-east-2.amazonaws.com/springapp"
     }
 
 
@@ -30,7 +30,6 @@ pipeline{
                      docker build -t springapp:${VERSION} .
 
                      '''
-                  docker.build register
               }
            }            
         }
@@ -40,7 +39,7 @@ pipeline{
               script{
                   sh '''
                      aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 964874103124.dkr.ecr.us-east-2.amazonaws.com
-                     docker push 964874103124.dkr.ecr.us-east-2.amazonaws.com/docker_hosted_private/springapp:${VERSION}
+                     docker push 964874103124.dkr.ecr.us-east-2.amazonaws.com/springapp:${VERSION}
                      '''
               }
            }            
