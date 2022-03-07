@@ -3,7 +3,7 @@ pipeline{
     agent any
     environment{
         VERSION = "${env.BUILD_ID}"
-        url = "${env.BUILD_URL}"
+        register = "964874103124.dkr.ecr.us-east-2.amazonaws.com/docker_hosted_private"
     }
 
 
@@ -25,7 +25,7 @@ pipeline{
         stage("Build Docker Imager"){
            steps{
               script{
-                  sh 'docker build -t gowthamragavan/ramweb:0.0.2 .'
+                  docker.build register
               }
            }            
         }
