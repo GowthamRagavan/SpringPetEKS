@@ -25,8 +25,7 @@ pipeline{
         stage("Build Docker Imager"){
            steps{
               script{
-                  docker build -t docker_hosted_private .
-                  docker tag docker_hosted_private:latest 964874103124.dkr.ecr.us-east-2.amazonaws.com/docker_hosted_private:latest
+                  docker.build register
               }
            }            
         }
