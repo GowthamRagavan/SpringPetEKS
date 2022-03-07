@@ -27,7 +27,8 @@ pipeline{
            steps{
               script{
                   sh '''
-                     docker build -t springapp:${VERSION} .
+                     docker build -t springapp .
+                     docker tag springapp:latest 964874103124.dkr.ecr.us-east-2.amazonaws.com/springapp:${VERSION}
 
                      '''
               }
